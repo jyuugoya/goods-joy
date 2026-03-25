@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Goods &amp; Joy</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #fdf6ef;
+      --bg2: #f9efe4;
+      --white: #ffffff;
+      --border: #edddd0;
+      --text: #3a2e28;
+      --text-mid: #7a6358;
+      --text-muted: #b09a8a;
+      --accent: #f4a7b9;
+      --accent-dark: #e8849c;
+      --accent2: #a8d8c8;
+      --accent3: #f9d57e;
+      --sale: #e05c7a;
+      --pre: #7eb8d4;
+      --nav-h: 52px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--accent);
+      text-align: center;
+      padding: 7px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 40px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-search { color: var(--text-muted); font-size: 18px; cursor: pointer; }
+    .header-logo {
+      text-align: center;
+      flex: 1;
+    }
+    .header-logo-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 30px; font-weight: 800;
+      line-height: 1;
+      color: var(--accent-dark);
+      letter-spacing: -1px;
+    }
+    .header-logo-title span { color: var(--accent2); }
+    .header-logo-sub {
+      font-size: 9px; font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .header-right { display: flex; gap: 16px; align-items: center; }
+    .header-right a { font-size: 18px; color: var(--text-muted); transition: color 0.15s; }
+    .header-right a:hover { color: var(--text); }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: center;
+      gap: 0;
+    }
+    .nav-link {
+      padding: 14px 18px;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-mid);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent-dark);
+      border-bottom-color: var(--accent-dark);
+    }
+
+    /* ── HERO BANNER ── */
+    .hero {
+      max-width: 860px; margin: 32px auto;
+      padding: 0 24px;
+      position: relative;
+    }
+    .hero-banner {
+      background: linear-gradient(135deg, #fde8ef 0%, #fdf0fa 50%, #e8f5f0 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+      min-height: 200px;
+    }
+    .hero-deco {
+      position: absolute; top: -20px; right: -20px;
+      font-size: 120px; opacity: 0.08;
+      pointer-events: none; user-select: none;
+      line-height: 1;
+    }
+    .hero-text-area { position: relative; z-index: 2; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px; font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 32px; font-weight: 800;
+      line-height: 1.2;
+      color: var(--accent-dark);
+      margin-bottom: 8px;
+    }
+    .hero-sub { font-size: 12px; color: var(--text-mid); margin-bottom: 20px; }
+    .hero-btn {
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.15s, transform 0.15s;
+      display: inline-block;
+    }
+    .hero-btn:hover { background: #d4718a; transform: translateY(-1px); }
+    .hero-img-area {
+      font-size: 88px;
+      position: relative; z-index: 2;
+      filter: drop-shadow(0 8px 24px rgba(244,167,185,0.3));
+      animation: bob 3s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .hero-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+    .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all 0.2s; }
+    .hero-dot.active { background: var(--accent-dark); width: 20px; border-radius: 3px; }
+
+    /* ── SECTION ── */
+    .section { max-width: 1000px; margin: 0 auto 48px; padding: 0 24px; }
+    .section-head {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 18px; font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .section-title::before, .section-title::after {
+      content: '';
+      flex: 1; max-width: 80px;
+      height: 1px; background: var(--border);
+    }
+
+    /* ── PRODUCT GRID ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* ── PRODUCT CARD ── */
+    .pcard {
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pcard:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(58,46,40,0.1);
+    }
+    .pcard-img {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* 실제 이미지가 있을 때 */
+    .pcard-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s;
+    }
+    .pcard:hover .pcard-img img { transform: scale(1.05); }
+    /* 이미지 없을 때 이모지 placeholder */
+    .pcard-img-placeholder {
+      font-size: 52px;
+      transition: transform 0.3s;
+    }
+    .pcard:hover .pcard-img-placeholder { transform: scale(1.1); }
+
+    .pcard-badges {
+      position: absolute; top: 8px; left: 8px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .badge {
+      font-size: 9px; font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge-sale { background: var(--sale); color: #fff; }
+    .badge-pre { background: var(--pre); color: #fff; }
+    .badge-new { background: var(--accent2); color: #fff; }
+    .badge-3d {
+      background: rgba(255,255,255,0.92);
+      color: var(--accent-dark);
+      border: 1px solid var(--accent);
+    }
+
+    .pcard-overlay {
+      position: absolute; inset: 0;
+      background: rgba(244,167,185,0.15);
+      backdrop-filter: blur(2px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pcard:hover .pcard-overlay { opacity: 1; }
+    .pcard-overlay-btn {
+      background: var(--white);
+      color: var(--accent-dark);
+      font-size: 11px; font-weight: 700;
+      padding: 9px 18px;
+      border-radius: 20px;
+      border: 1.5px solid var(--accent);
+      display: flex; align-items: center; gap: 6px;
+      transform: translateY(6px);
+      transition: transform 0.2s;
+      white-space: nowrap;
+    }
+    .pcard:hover .pcard-overlay-btn { transform: translateY(0); }
+
+    .pcard-body { padding: 12px 14px 14px; }
+    .pcard-name {
+      font-size: 12px; font-weight: 600;
+      line-height: 1.5; color: var(--text);
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 36px;
+    }
+    .pcard-price-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .pcard-price { font-size: 14px; font-weight: 700; color: var(--text); }
+    .pcard-price-orig { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
+    .pcard-sale-tag {
+      font-size: 10px; font-weight: 700;
+      color: var(--sale);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(58,46,40,0.55);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+      backdrop-filter: blur(6px);
+      padding: 16px;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--white);
+      width: 100%; max-width: 960px;
+      max-height: 92vh;
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.28s cubic-bezier(0.34,1.2,0.64,1);
+      box-shadow: 0 32px 80px rgba(58,46,40,0.2);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+    /* LEFT: 이미지/3D 뷰어 */
+    .modal-media {
+      background: var(--bg2);
+      position: relative;
+      display: flex; flex-direction: column;
+      min-height: 480px;
+    }
+    .modal-media-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .media-tab {
+      flex: 1; padding: 12px;
+      font-size: 11px; font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      text-align: center;
+      letter-spacing: 0.5px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .media-tab.active { color: var(--accent-dark); border-bottom-color: var(--accent-dark); }
+
+    /* 2D 사진 뷰 */
+    .media-photo-view {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      position: relative;
+    }
+    .media-photo-view img {
+      max-width: 100%; max-height: 380px;
+      width: auto; height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .media-photo-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .media-photo-placeholder .emoji { font-size: 80px; }
+    .media-photo-placeholder p { font-size: 11px; color: var(--text-muted); }
+
+    .media-photo-thumbs {
+      display: flex; gap: 8px; padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+      overflow-x: auto;
+    }
+    .media-photo-thumbs::-webkit-scrollbar { display: none; }
+    .thumb {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      overflow: hidden;
+      flex-shrink: 0;
+      cursor: pointer;
+      background: var(--bg2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      transition: border-color 0.15s;
+    }
+    .thumb.active { border-color: var(--accent-dark); }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* 3D 뷰 */
+    .media-3d-view {
+      flex: 1;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .media-3d-badge {
+      position: absolute; top: 12px; left: 12px; z-index: 5;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 10px; font-weight: 700;
+      color: var(--accent-dark);
+    }
+    .media-3d-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent-dark);
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    model-viewer {
+      width: 100%; flex: 1; min-height: 340px;
+      background: transparent;
+      --poster-color: transparent;
+    }
+    .media-3d-hint {
+      padding: 8px 16px;
+      font-size: 10px; color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    /* RIGHT: 상품 정보 */
+    .modal-info {
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .modal-info-scroll { padding: 24px 22px; flex: 1; }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px;
+      width: 32px; height: 32px;
+      background: var(--bg2);
+      border-radius: 50%;
+      font-size: 14px;
+      color: var(--text-mid);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      transition: background 0.15s;
+    }
+    .modal-close:hover { background: var(--border); }
+
+    .modal-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .modal-name {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px; font-weight: 800;
+      line-height: 1.4; margin-bottom: 6px;
+    }
+    .modal-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; }
+    .modal-price-row {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 4px;
+    }
+    .modal-price { font-size: 22px; font-weight: 800; color: var(--text); }
+    .modal-price-orig { font-size: 13px; color: var(--text-muted); text-decoration: line-through; }
+    .modal-sale { font-size: 13px; font-weight: 700; color: var(--sale); }
+    .modal-ship { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; }
+
+    .modal-divider { height: 1px; background: var(--border); margin: 14px 0; }
+    .modal-spec-label { font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .modal-spec-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+    .modal-spec-row:last-child { border-bottom: none; }
+    .modal-spec-row span:first-child { color: var(--text-muted); }
+    .modal-spec-row span:last-child { font-weight: 600; }
+
+    .modal-qty-row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+    .modal-qty-label { font-size: 12px; font-weight: 700; }
+    .qty-ctrl { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: 20px; overflow: hidden; }
+    .qty-btn { width: 32px; height: 32px; font-size: 16px; font-weight: 300; color: var(--text-mid); transition: background 0.15s; }
+    .qty-btn:hover { background: var(--bg); }
+    .qty-val { width: 36px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+
+    .modal-actions { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+    .btn-cart {
+      width: 100%;
+      background: var(--accent-dark);
+      color: #fff;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.3px;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-cart:hover { background: #d4718a; transform: translateY(-1px); }
+    .btn-wish {
+      width: 100%;
+      background: none;
+      color: var(--text-mid);
+      border: 1.5px solid var(--border);
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-wish:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Nunito', sans-serif;
+      font-size: 22px; font-weight: 800;
+      color: var(--accent-dark);
+      margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--accent2); }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="topbar">🌸 FREE SHIPPING on orders over ₩50,000 &nbsp;·&nbsp; 3D VIEWER DEMO SAMPLE PAGE 🌸</div>
+
+<header>
+  <div class="header-search">🔍</div>
+  <div class="header-logo">
+    <div class="header-logo-title">Goods <span>&Joy</span></div>
+    <div class="header-logo-sub">Part of my life in K-POP</div>
+  </div>
+  <div class="header-right">
+    <a href="#">👤</a>
+    <a href="#">🛒</a>
+  </div>
+</header>
+
+<nav>
+  <a class="nav-link active" href="#">New Arrivals</a>
+  <a class="nav-link" href="#">Pre-Order</a>
+  <a class="nav-link" href="#">K-POP Albums</a>
+  <a class="nav-link" href="#">K-POP Merch</a>
+  <a class="nav-link" href="#">BT21 Official MD</a>
+  <a class="nav-link" href="#">Official Light Stick</a>
+  <a class="nav-link" href="#">K-Beauty</a>
+  <a class="nav-link" href="#">K-Fashion</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-banner">
+    <div class="hero-deco">🌸</div>
+    <div class="hero-text-area">
+      <div class="hero-tag">✨ New Collection</div>
+      <div class="hero-title">Cherry Blossom<br>Special Edition</div>
+      <div class="hero-sub">BTS · BLACKPINK · ENHYPEN · ATEEZ</div>
+      <a href="#" class="hero-btn">Shop This →</a>
+    </div>
+    <div class="hero-img-area">🛍️</div>
+  </div>
+  <div class="hero-dots">
+    <div class="hero-dot active"></div>
+    <div class="hero-dot"></div>
+    <div class="hero-dot"></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-title">New Arrivals</div>
+  </div>
+  <div class="product-grid" id="productGrid">
+    <!-- 상품 카드는 JS로 렌더링 -->
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Goods <span>&Joy</span></div>
+  <div class="footer-text">© 2025 Goods&Joy — 3D Viewer Sample Page &nbsp;·&nbsp; Part of my life in K-POP</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()" style="position:absolute;top:14px;right:14px;">✕</button>
+
+    <!-- LEFT: 미디어 -->
+    <div class="modal-media" id="modalMedia">
+      <div class="modal-media-tabs">
+        <button class="media-tab active" id="tabPhoto" onclick="switchTab('photo')">📷 Photos</button>
+        <button class="media-tab" id="tab3d" onclick="switchTab('3d')" id="tab3dBtn">🔲 3D View</button>
+      </div>
+
+      <!-- 2D 사진 -->
+      <div id="photoView" class="media-photo-view">
+        <!-- 이미지 or placeholder -->
+      </div>
+      <div class="media-photo-thumbs" id="photoThumbs"></div>
+
+      <!-- 3D -->
+      <div id="view3d" class="media-3d-view" style="display:none;flex:1;flex-direction:column;">
+        <div class="media-3d-badge">3D LIVE VIEW</div>
+        <model-viewer
+          id="modelViewer"
+          src=""
+          alt="3D Product"
+          auto-rotate
+          camera-controls
+          shadow-intensity="1"
+          environment-image="neutral"
+          exposure="1.1"
+          style="flex:1;min-height:340px;"
+        ></model-viewer>
+        <div class="media-3d-hint">🖱 Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: 상품 정보 -->
+    <div class="modal-info">
+      <div class="modal-info-scroll">
+        <div class="modal-badges" id="m-badges"></div>
+        <div class="modal-name" id="m-name"></div>
+        <div class="modal-sub" id="m-sub"></div>
+        <div class="modal-price-row">
+          <span class="modal-price" id="m-price"></span>
+          <span class="modal-price-orig" id="m-orig"></span>
+          <span class="modal-sale" id="m-sale"></span>
+        </div>
+        <div class="modal-ship">✈ International Shipping Available</div>
+        <div class="modal-divider"></div>
+        <div class="modal-spec-label">Product Details</div>
+        <div class="modal-spec-row"><span>Material</span><span id="m-material">—</span></div>
+        <div class="modal-spec-row"><span>Size</span><span id="m-size">—</span></div>
+        <div class="modal-spec-row"><span>Contents</span><span id="m-contents">—</span></div>
+        <div class="modal-spec-row"><span>Shipping</span><span>3–7 Business Days</span></div>
+        <div class="modal-qty-row">
+          <span class="modal-qty-label">Quantity</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <div class="qty-val" id="qtyVal">1</div>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-cart">🛒 Add to Cart</button>
+        <button class="btn-wish">♡ Add to Wishlist</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  ✏️  상품 데이터 편집 구역
+//  - images: 2D 사진 URL 배열 (여러 장 가능)
+//    예) images: ['https://...jpg', 'https://...jpg']
+//    없으면 이모지 placeholder 표시
+//  - glb: 3D 파일 경로 또는 URL
+//    예) glb: 'product1.glb'  또는  glb: 'https://...'
+//    없으면 3D 탭 비활성화
+//  - origPrice: 할인 전 가격 (없으면 빈칸)
+// ═══════════════════════════════════════════════
+const PRODUCTS = [
+  {
+    id: 'p1',
+    name: 'ANTON Dino Plush Toy Special Edition',
+    sub: 'RIIZE · Official MD',
+    price: '₩62,000',
+    origPrice: '',
+    badges: ['new'],
+    emoji: '🧸',
+    images: [
+      '앤톤_앞.png',   // 앞면 누끼 사진
+      '앤톤_뒤.png',   // 뒷면 누끼 사진
+    ],
+    glb: '앤톤3d.glb', // 3D 파일
+    material: '폴리에스터 봉제',
+    size: '약 25cm',
+    contents: '인형 1개',
+  },
+  // ─────────────────────────────────────────────
+  // ✏️ 아래 상품들도 같은 방식으로 채워주세요!
+  // images: ['파일명.jpg', '파일명2.jpg']
+  // glb: '파일명.glb'  (없으면 '' 로 비워두세요)
+  // ─────────────────────────────────────────────
+  {
+    id: 'p2',
+    name: 'BOYNEXTDOOR Official Light Stick WONDERSTICK',
+    sub: 'BOYNEXTDOOR · Official MD',
+    price: '₩55,000',
+    origPrice: '',
+    badges: ['new'],
+    emoji: '🏠',
+    images: [
+      '보이넥스트도어응원봉.jpg'
+    ],
+    glb: 'trellis_wonderstick.glb',
+    material: 'ABS + 투명 아크릴',
+    size: '약 280mm',
+    contents: '응원봉 1개 + 스트랩',
+  },
+  {
+    id: 'p3',
+    name: 'Starbucks Korean Regional Collection Mug Cup',
+    sub: 'Starbucks Korea · Limited',
+    price: '₩50,002',
+    origPrice: '',
+    badges: ['new'],
+    emoji: '☕',
+    images: [],
+    glb: '',
+    material: 'Ceramic',
+    size: '355ml',
+    contents: '1 Mug',
+  },
+  {
+    id: 'p4',
+    name: 'Starbucks Korean Regional Collection Stainless Steel Tumbler',
+    sub: 'Starbucks Korea · Limited',
+    price: '₩63,218',
+    origPrice: '',
+    badges: ['new'],
+    emoji: '🥤',
+    images: [],
+    glb: '',
+    material: 'Stainless Steel',
+    size: '473ml',
+    contents: '1 Tumbler',
+  },
+  {
+    id: 'p5',
+    name: 'KWON JIN AH Official Light Stick Ver.2',
+    sub: 'KWON JIN AH · Official MD',
+    price: '₩60,228',
+    origPrice: '₩75,285',
+    badges: ['sale'],
+    emoji: '✨',
+    images: [],
+    glb: '',
+    material: 'ABS Plastic',
+    size: '350mm',
+    contents: '1 Light Stick',
+  },
+  {
+    id: 'p6',
+    name: 'Kep1er Official Light Stick 1',
+    sub: 'Kep1er · Official MD',
+    price: '₩63,219',
+    origPrice: '₩80,750',
+    badges: ['sale'],
+    emoji: '⭐',
+    images: [],
+    glb: '',
+    material: 'ABS Plastic',
+    size: '360mm',
+    contents: '1 Light Stick',
+  },
+  {
+    id: 'p7',
+    name: 'TinyTAN BBNI Speaker Keyring',
+    sub: 'BTS TinyTAN · Official MD',
+    price: '₩51,175',
+    origPrice: '',
+    badges: ['new'],
+    emoji: '🔊',
+    images: [],
+    glb: '',
+    material: 'ABS + Speaker',
+    size: '60mm',
+    contents: '1 Speaker Keyring',
+  },
+  {
+    id: 'p8',
+    name: 'BIBI Official Light Stick',
+    sub: 'BIBI · Official MD',
+    price: '₩60,228',
+    origPrice: '₩87,734',
+    badges: ['sale'],
+    emoji: '💛',
+    images: [],
+    glb: '',
+    material: 'ABS Plastic',
+    size: '340mm',
+    contents: '1 Light Stick',
+  },
+];
+// ═══════════════════════════════════════════════
+
+const BADGE_MAP = {
+  sale: { cls: 'badge-sale', label: 'Sale' },
+  pre:  { cls: 'badge-pre',  label: 'Pre-Order' },
+  new:  { cls: 'badge-new',  label: 'New' },
+};
+
+// 카드 렌더링
+function renderCards() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = PRODUCTS.map(p => {
+    const has3d = !!p.glb;
+    const hasImg = p.images && p.images.length > 0;
+    const imgHTML = hasImg
+      ? `<img src="${p.images[0]}" alt="${p.name}" loading="lazy"/>`
+      : `<div class="pcard-img-placeholder">${p.emoji}</div>`;
+
+    const badgesHTML = p.badges.map(b =>
+      `<span class="badge ${BADGE_MAP[b].cls}">${BADGE_MAP[b].label}</span>`
+    ).join('') + (has3d ? `<span class="badge badge-3d">3D</span>` : '');
+
+    const origHTML = p.origPrice
+      ? `<span class="pcard-price-orig">${p.origPrice}</span><span class="pcard-sale-tag">Sale</span>`
+      : '';
+
+    return `
+    <div class="pcard" onclick="openModal('${p.id}')">
+      <div class="pcard-img">
+        ${imgHTML}
+        <div class="pcard-badges">${badgesHTML}</div>
+        <div class="pcard-overlay">
+          <div class="pcard-overlay-btn">
+            ${has3d ? '🔲 View 3D' : '🔍 Quick View'}
+          </div>
+        </div>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-price-row">
+          <span class="pcard-price">${p.price}</span>
+          ${origHTML}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// 현재 탭 상태
+let currentTab = 'photo';
+let currentThumbIdx = 0;
+let qty = 1;
+let currentProduct = null;
+
+function openModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  currentProduct = p;
+  qty = 1;
+  document.getElementById('qtyVal').textContent = 1;
+
+  // 정보 세팅
+  document.getElementById('m-name').textContent = p.name;
+  document.getElementById('m-sub').textContent = p.sub;
+  document.getElementById('m-price').textContent = p.price;
+  document.getElementById('m-orig').textContent = p.origPrice || '';
+  document.getElementById('m-sale').textContent = p.origPrice ? 'Sale' : '';
+  document.getElementById('m-material').textContent = p.material || '—';
+  document.getElementById('m-size').textContent = p.size || '—';
+  document.getElementById('m-contents').textContent = p.contents || '—';
+  document.getElementById('m-badges').innerHTML = p.badges.map(b =>
+    `<span class="badge ${BADGE_MAP[b].cls}">${BADGE_MAP[b].label}</span>`
+  ).join('') + (p.glb ? `<span class="badge badge-3d">3D</span>` : '');
+
+  // 3D 탭 활성화 여부
+  const tab3dBtn = document.getElementById('tab3d');
+  if (p.glb) {
+    tab3dBtn.style.display = '';
+    document.getElementById('modelViewer').src = p.glb;
+  } else {
+    tab3dBtn.style.display = 'none';
+  }
+
+  // 사진 뷰
+  renderPhotoView(p, 0);
+  switchTab('photo');
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderPhotoView(p, idx) {
+  currentThumbIdx = idx;
+  const photoView = document.getElementById('photoView');
+  const thumbsEl = document.getElementById('photoThumbs');
+
+  if (p.images && p.images.length > 0) {
+    photoView.innerHTML = `<img src="${p.images[idx]}" alt="${p.name}"/>`;
+    thumbsEl.innerHTML = p.images.map((src, i) =>
+      `<div class="thumb ${i===idx?'active':''}" onclick="selectThumb(${i})">
+        <img src="${src}" alt=""/>
+      </div>`
+    ).join('');
+  } else {
+    photoView.innerHTML = `
+      <div class="media-photo-placeholder">
+        <div class="emoji">${p.emoji}</div>
+        <p>이미지 URL을 입력하면 여기에 표시됩니다</p>
+      </div>`;
+    thumbsEl.innerHTML = '';
+  }
+}
+
+function selectThumb(idx) {
+  if (!currentProduct) return;
+  renderPhotoView(currentProduct, idx);
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tabPhoto').classList.toggle('active', tab === 'photo');
+  document.getElementById('tab3d').classList.toggle('active', tab === '3d');
+  document.getElementById('photoView').style.display = tab === 'photo' ? '' : 'none';
+  document.getElementById('photoThumbs').style.display = tab === 'photo' ? '' : 'none';
+  document.getElementById('view3d').style.display = tab === '3d' ? 'flex' : 'none';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qtyVal').textContent = qty;
+}
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.querySelectorAll('.nav-link').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.nav-link').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+renderCards();
+</script>
+</body>
+</html>
