@@ -41,7 +41,7 @@
 
 
 
-|**앤톤 인형 (Meongryongi)**|**보이넥스트도어 공식 응원봉 (wonder stick)**|**엑소 응원봉 (eridibong)**|
+|**앤톤 인형<br>(Meongryongi)**|**보이넥스트도어 공식 응원봉<br>(wonder stick)**|**엑소 공식 응원봉<br>(eridibong)**|
 |-|-|-|
 |Kiri Engine으로 실물 촬영<br />→ GLB export<br />→ 상품 페이지 연결|투명 구체 소재로 스캔 난이도 높음<br />→ 구체 분리 후 TRELLIS AI로 이미지를 3D 변환<br />→ Blender에서 투명 UV Sphere 추가<br />→ Texture Paint로 텍스처 수정<br />→ GLB export<br />→ 상품페이지 연결|Kiri Engine의 3DGS모드(Gaussian Splatting)로 실물 촬영 <br />→ PLY export|
 
