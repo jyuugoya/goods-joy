@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Goods &amp; Joy</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsplat@latest/dist/index.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsplat@latest/dist/index.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -581,8 +583,9 @@
       </div>
       <div class="media-photo-thumbs" id="photoThumbs"></div>
 
-      <!-- 3D -->
+      <!-- 3D GLB -->
       <div id="view3d" class="media-3d-view" style="display:none;flex:1;flex-direction:column;">
+        <!--
         <div class="media-3d-badge">3D LIVE VIEW</div>
         <model-viewer
           id="modelViewer"
@@ -595,6 +598,13 @@
           exposure="1.1"
           style="flex:1;min-height:340px;"
         ></model-viewer>
+        <div class="media-3d-hint">🖱 Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
+      </div>-->
+
+      <!-- Gaussian Splat PLY -->
+      <div id="viewPly" style="display:none;flex:1;flex-direction:column;position:relative;background:#111;">
+        <div class="media-3d-badge" style="position:absolute;top:12px;left:12px;z-index:5;">✨ GAUSSIAN SPLAT</div>
+        <canvas id="gsplatCanvas" style="width:100%;flex:1;min-height:340px;display:block;"></canvas>
         <div class="media-3d-hint">🖱 Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
       </div>
     </div>
@@ -686,87 +696,20 @@ const PRODUCTS = [
   },
   {
     id: 'p3',
-    name: 'Starbucks Korean Regional Collection Mug Cup',
-    sub: 'Starbucks Korea · Limited',
-    price: '₩50,002',
+    name: 'EXO Official Light Stick (EXO-L Lightstick)',
+    sub: 'EXO · Official MD',
+    price: '₩55,000',
     origPrice: '',
     badges: ['new'],
-    emoji: '☕',
-    images: [],
+    emoji: '⬡',
+    images: [
+      '엑소응원봉.jpg'
+    ],
     glb: '',
-    material: 'Ceramic',
-    size: '355ml',
-    contents: '1 Mug',
-  },
-  {
-    id: 'p4',
-    name: 'Starbucks Korean Regional Collection Stainless Steel Tumbler',
-    sub: 'Starbucks Korea · Limited',
-    price: '₩63,218',
-    origPrice: '',
-    badges: ['new'],
-    emoji: '🥤',
-    images: [],
-    glb: '',
-    material: 'Stainless Steel',
-    size: '473ml',
-    contents: '1 Tumbler',
-  },
-  {
-    id: 'p5',
-    name: 'KWON JIN AH Official Light Stick Ver.2',
-    sub: 'KWON JIN AH · Official MD',
-    price: '₩60,228',
-    origPrice: '₩75,285',
-    badges: ['sale'],
-    emoji: '✨',
-    images: [],
-    glb: '',
+    ply: '15f1c05f',
     material: 'ABS Plastic',
-    size: '350mm',
-    contents: '1 Light Stick',
-  },
-  {
-    id: 'p6',
-    name: 'Kep1er Official Light Stick 1',
-    sub: 'Kep1er · Official MD',
-    price: '₩63,219',
-    origPrice: '₩80,750',
-    badges: ['sale'],
-    emoji: '⭐',
-    images: [],
-    glb: '',
-    material: 'ABS Plastic',
-    size: '360mm',
-    contents: '1 Light Stick',
-  },
-  {
-    id: 'p7',
-    name: 'TinyTAN BBNI Speaker Keyring',
-    sub: 'BTS TinyTAN · Official MD',
-    price: '₩51,175',
-    origPrice: '',
-    badges: ['new'],
-    emoji: '🔊',
-    images: [],
-    glb: '',
-    material: 'ABS + Speaker',
-    size: '60mm',
-    contents: '1 Speaker Keyring',
-  },
-  {
-    id: 'p8',
-    name: 'BIBI Official Light Stick',
-    sub: 'BIBI · Official MD',
-    price: '₩60,228',
-    origPrice: '₩87,734',
-    badges: ['sale'],
-    emoji: '💛',
-    images: [],
-    glb: '',
-    material: 'ABS Plastic',
-    size: '340mm',
-    contents: '1 Light Stick',
+    size: '약 300mm',
+    contents: '응원봉 1개 + 스트랩',
   },
 ];
 // ═══════════════════════════════════════════════
@@ -781,7 +724,7 @@ const BADGE_MAP = {
 function renderCards() {
   const grid = document.getElementById('productGrid');
   grid.innerHTML = PRODUCTS.map(p => {
-    const has3d = !!p.glb;
+    const has3d = !!(p.glb || p.ply);
     const hasImg = p.images && p.images.length > 0;
     const imgHTML = hasImg
       ? `<img src="${p.images[0]}" alt="${p.name}" loading="lazy"/>`
@@ -789,7 +732,7 @@ function renderCards() {
 
     const badgesHTML = p.badges.map(b =>
       `<span class="badge ${BADGE_MAP[b].cls}">${BADGE_MAP[b].label}</span>`
-    ).join('') + (has3d ? `<span class="badge badge-3d">3D</span>` : '');
+    ).join('') + (has3d ? `<span class="badge badge-3d">${p.ply ? '✨3DGS' : '3D'}</span>` : '');
 
     const origHTML = p.origPrice
       ? `<span class="pcard-price-orig">${p.origPrice}</span><span class="pcard-sale-tag">Sale</span>`
@@ -802,7 +745,7 @@ function renderCards() {
         <div class="pcard-badges">${badgesHTML}</div>
         <div class="pcard-overlay">
           <div class="pcard-overlay-btn">
-            ${has3d ? '🔲 View 3D' : '🔍 Quick View'}
+            ${has3d ? (p.ply ? '✨ Gaussian Splat' : '🔲 View 3D') : '🔍 Quick View'}
           </div>
         </div>
       </div>
@@ -822,6 +765,7 @@ let currentTab = 'photo';
 let currentThumbIdx = 0;
 let qty = 1;
 let currentProduct = null;
+let gsplatViewer = null;
 
 function openModal(id) {
   const p = PRODUCTS.find(x => x.id === id);
@@ -841,13 +785,14 @@ function openModal(id) {
   document.getElementById('m-contents').textContent = p.contents || '—';
   document.getElementById('m-badges').innerHTML = p.badges.map(b =>
     `<span class="badge ${BADGE_MAP[b].cls}">${BADGE_MAP[b].label}</span>`
-  ).join('') + (p.glb ? `<span class="badge badge-3d">3D</span>` : '');
+  ).join('') + ((p.glb || p.ply) ? `<span class="badge badge-3d">${p.ply ? '✨3DGS' : '3D'}</span>` : '');
 
   // 3D 탭 활성화 여부
   const tab3dBtn = document.getElementById('tab3d');
-  if (p.glb) {
+  if (p.glb || p.ply) {
     tab3dBtn.style.display = '';
-    document.getElementById('modelViewer').src = p.glb;
+    tab3dBtn.textContent = p.ply ? '✨ Gaussian Splat' : '🔲 3D View';
+    if (p.glb) document.getElementById('modelViewer').src = p.glb;
   } else {
     tab3dBtn.style.display = 'none';
   }
@@ -889,11 +834,42 @@ function selectThumb(idx) {
 
 function switchTab(tab) {
   currentTab = tab;
+  const isPly = currentProduct && currentProduct.ply && !currentProduct.glb;
+
   document.getElementById('tabPhoto').classList.toggle('active', tab === 'photo');
   document.getElementById('tab3d').classList.toggle('active', tab === '3d');
   document.getElementById('photoView').style.display = tab === 'photo' ? '' : 'none';
   document.getElementById('photoThumbs').style.display = tab === 'photo' ? '' : 'none';
-  document.getElementById('view3d').style.display = tab === '3d' ? 'flex' : 'none';
+
+  // PLY vs GLB 뷰어 전환
+  if (tab === '3d') {
+    if (isPly) {
+      document.getElementById('view3d').style.display = 'none';
+      document.getElementById('viewPly').style.display = 'flex';
+      loadGaussianSplat(currentProduct.ply);
+    } else {
+      document.getElementById('view3d').style.display = 'flex';
+      document.getElementById('viewPly').style.display = 'none';
+    }
+  } else {
+    document.getElementById('view3d').style.display = 'none';
+    document.getElementById('viewPly').style.display = 'none';
+  }
+}
+
+// Gaussian Splat PLY 뷰어
+function loadGaussianSplat(embedId) {
+  const viewPly = document.getElementById('viewPly');
+  viewPly.innerHTML = `
+    <div class="media-3d-badge" style="position:absolute;top:12px;left:12px;z-index:5;">✨ GAUSSIAN SPLAT</div>
+    <iframe
+      src="./Exo_Gaussian%20Splatting1.html"
+      width="100%"
+      style="flex:1;min-height:380px;border:none;display:block;"
+      allow="fullscreen; xr-spatial-tracking"
+    ></iframe>
+    <div class="media-3d-hint">🖱 Drag to rotate &nbsp;·&nbsp; Scroll to zoom</div>
+  `;
 }
 
 function closeModal() {
