@@ -12,7 +12,7 @@
 <img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/50ac0a6d-87c7-45ef-beeb-14d881bc54ba" />
 
 
-#### **Live Demo** : https://jyuugoya.github.io/goods-joy/shop-landing.html
+#### **Live Demo** : https://jyuugoya.github.io/goods-joy/shop-landing-fixed.html
 
 
 
