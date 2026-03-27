@@ -52,20 +52,23 @@
 
 ###### goods-joy/
 
-###### ├── shop-landing.html       # 메인 쇼핑몰 페이지
+###### ├── shop-landing-fixed.html       # 메인 쇼핑몰 페이지
 
 ###### ├── 앤톤3d.glb              # 앤톤 인형 3D 모델
 
-###### ├── 앤톤\_앞.png             # 앤톤 인형 정면 사진
-
-###### ├── 앤톤\_뒤.png             # 앤톤 인형 후면 사진
+###### ├── 앤톤.jpg             # 앤톤 인형 정면 사진
 
 ###### ├── trellis\_wonderstick.glb # 원더스틱 3D 모델
 
 ###### ├── Exo\_Gaussian Splatting.ply # 에리디봉 3D 모델
 
-###### └── 보이넥스트도어응원봉.jpg  # 원더스틱 실물 사진
+###### ├── Exo\_Gaussian Splatting1.ply # 에리디봉 3D 모델1
 
+###### ├── Exo\_Gaussian Splatting.html # 에리디봉 3D 모델 iframe을 위한 확장자
+
+###### ├── 엑소응원봉.jpg  # 원더스틱 실물 사진
+
+###### └── 보이넥스트도어응원봉.jpg  # 원더스틱 실물 사진
 
 
 ##### **Key Challenges**
